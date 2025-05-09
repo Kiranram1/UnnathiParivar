@@ -1,51 +1,78 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faHandHoldingHeart, faUsers, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHandHoldingHeart, faUsers, faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function App() {
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.1,//if the element is 10% in view, trigger the animation
+    threshold: 0.1,
   });
 
   const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },//opacity means transparency, y means vertical position
+    hidden: { opacity: 0, y: 60 },
     visible: { opacity: 1, y: 0 }
   };
 
-  return (
-    <div className="landing-page">
-      <nav className="navbar">
-        <motion.div 
-          className="logo"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <FontAwesomeIcon icon={faHeart} className="logo-icon" /> OrphanConnect
-        </motion.div>
-        <motion.div 
-          className="nav-links"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <a href="#mission">Mission</a>
-          <a href="#features">Features</a>
-          <a href="#contact">Contact</a>
-          <motion.button 
-            className="cta-button"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Involved
-          </motion.button>
-        </motion.div>
-      </nav>
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
+  return (
+    <Router>
+      <div className="landing-page">
+        <nav className="navbar">
+          <motion.div 
+            className="logo"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link to="/" className="logo-link">
+              <FontAwesomeIcon icon={faHeart} className="logo-icon" /> OrphanConnect
+            </Link>
+          </motion.div>
+          <motion.div 
+            className="nav-links"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link to="/" onClick={() => scrollToSection('mission')} className="nav-link">Mission</Link>
+            <Link to="/" onClick={() => scrollToSection('features')} className="nav-link">Features</Link>
+            <Link to="/" onClick={() => scrollToSection('contact')} className="nav-link">Contact</Link>
+            <Link to="/login" className="nav-link">
+              <FontAwesomeIcon icon={faUser} /> Login/Signup
+            </Link>
+            <motion.button 
+              className="cta-button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Involved
+            </motion.button>
+          </motion.div>
+        </nav>
+
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/" element={<HomeContent fadeInUp={fadeInUp} ref={ref} inView={inView} />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
+function HomeContent({ fadeInUp, ref, inView }) {
+  return (
+    <>
       <header className="hero">
         <motion.div
           className="hero-content"
@@ -150,6 +177,40 @@ function App() {
       <footer className="footer">
         <p>&copy; 2025 OrphanConnect. All rights reserved.</p>
       </footer>
+    </>
+  );
+}
+
+function LoginPage() {
+  return (
+    <div className="auth-page">
+      <div className="auth-container">
+        <h2>Login</h2>
+        <form className="auth-form">
+          <input type="email" placeholder="Email" required />
+          <input type="password" placeholder="Password" required />
+          <button type="submit" className="cta-button">Login</button>
+        </form>
+        <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
+      </div>
+    </div>
+  );
+}
+
+function SignupPage() {
+  return (
+    <div className="auth-page">
+      <div className="auth-container">
+        <h2>Sign Up</h2>
+        <form className="auth-form">
+          <input type="text" placeholder="Full Name" required />
+          <input type="email" placeholder="Email" required />
+          <input type="password" placeholder="Password" required />
+          <input type="password" placeholder="Confirm Password" required />
+          <button type="submit" className="cta-button">Sign Up</button>
+        </form>
+        <p>Already have an account? <Link to="/login">Login</Link></p>
+      </div>
     </div>
   );
 }
