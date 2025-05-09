@@ -6,6 +6,14 @@ import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './App.css';
 
+// TODO: Database Integration Steps
+// 1. Set up database (e.g., MongoDB, PostgreSQL)
+// 2. Create user schema/model
+// 3. Set up authentication middleware
+// 4. Create API endpoints for user operations
+// 5. Implement error handling and validation
+// 6. Add loading states and success/error messages
+
 function App() {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -182,13 +190,41 @@ function HomeContent({ fadeInUp, ref, inView }) {
 }
 
 function LoginPage() {
+  // TODO: Add state management for form data
+  // const [formData, setFormData] = useState({ email: '', password: '' });
+  // const [error, setError] = useState('');
+  // const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // TODO: Database Integration
+    // 1. Validate form data
+    // 2. Send login request to backend
+    // 3. Handle response (success/error)
+    // 4. Store authentication token
+    // 5. Redirect to dashboard/home
+    console.log('Login form submitted');
+  };
+
   return (
     <div className="auth-page">
       <div className="auth-container">
         <h2>Login</h2>
-        <form className="auth-form">
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <input 
+            type="email" 
+            placeholder="Email" 
+            required 
+            // TODO: Add onChange handler
+            // onChange={(e) => setFormData({...formData, email: e.target.value})}
+          />
+          <input 
+            type="password" 
+            placeholder="Password" 
+            required 
+            // TODO: Add onChange handler
+            // onChange={(e) => setFormData({...formData, password: e.target.value})}
+          />
           <button type="submit" className="cta-button">Login</button>
         </form>
         <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
@@ -198,15 +234,56 @@ function LoginPage() {
 }
 
 function SignupPage() {
+  // TODO: Add state management for form data
+  // const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  // const [error, setError] = useState('');
+  // const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // TODO: Database Integration
+    // 1. Validate form data
+    // 2. Check if passwords match
+    // 3. Send signup request to backend
+    // 4. Handle response (success/error)
+    // 5. Store authentication token
+    // 6. Redirect to dashboard/home
+    console.log('Signup form submitted');
+  };
+
   return (
     <div className="auth-page">
       <div className="auth-container">
         <h2>Sign Up</h2>
-        <form className="auth-form">
-          <input type="text" placeholder="Full Name" required />
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <input type="password" placeholder="Confirm Password" required />
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <input 
+            type="text" 
+            placeholder="Full Name" 
+            required 
+            // TODO: Add onChange handler
+            // onChange={(e) => setFormData({...formData, name: e.target.value})}
+          />
+          <input 
+            type="email" 
+            placeholder="Email" 
+            required 
+            // TODO: Add onChange handler
+            // onChange={(e) => setFormData({...formData, email: e.target.value})}
+          />
+          <input 
+            type="password" 
+            placeholder="Password" 
+            required 
+            // TODO: Add onChange handler
+            // onChange={(e) => setFormData({...formData, password: e.target.value})}
+          />
+          <input 
+            type="password" 
+            placeholder="Confirm Password" 
+            required 
+            // TODO: Add onChange handler
+            // onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+          />
           <button type="submit" className="cta-button">Sign Up</button>
         </form>
         <p>Already have an account? <Link to="/login">Login</Link></p>
