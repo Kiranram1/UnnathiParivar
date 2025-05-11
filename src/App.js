@@ -1,18 +1,11 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faHandHoldingHeart, faUsers, faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHandHoldingHeart, faUsers, faEnvelope, faPhone, faArrowLeft, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './App.css';
-
-// TODO: Database Integration Steps
-// 1. Set up database (e.g., MongoDB, PostgreSQL)
-// 2. Create user schema/model
-// 3. Set up authentication middleware
-// 4. Create API endpoints for user operations
-// 5. Implement error handling and validation
-// 6. Add loading states and success/error messages
+import { useState } from 'react';
 
 function App() {
   const [ref, inView] = useInView({
@@ -55,16 +48,9 @@ function App() {
             <Link to="/" onClick={() => scrollToSection('mission')} className="nav-link">Mission</Link>
             <Link to="/" onClick={() => scrollToSection('features')} className="nav-link">Features</Link>
             <Link to="/" onClick={() => scrollToSection('contact')} className="nav-link">Contact</Link>
-            <Link to="/login" className="nav-link">
-              <FontAwesomeIcon icon={faUser} /> Login/Signup
-            </Link>
-            <motion.button 
-              className="cta-button"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <Link to="/signup" className="cta-button">
               Get Involved
-            </motion.button>
+            </Link>
           </motion.div>
         </nav>
 
@@ -79,6 +65,8 @@ function App() {
 }
 
 function HomeContent({ fadeInUp, ref, inView }) {
+  const navigate = useNavigate();
+
   return (
     <>
       <header className="hero">
@@ -100,6 +88,7 @@ function HomeContent({ fadeInUp, ref, inView }) {
             className="cta-button hero-cta"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/signup')}
           >
             Become a Champion
           </motion.button>
@@ -190,104 +179,439 @@ function HomeContent({ fadeInUp, ref, inView }) {
 }
 
 function LoginPage() {
-  // TODO: Add state management for form data
-  // const [formData, setFormData] = useState({ email: '', password: '' });
-  // const [error, setError] = useState('');
-  // const [loading, setLoading] = useState(false);
+  const [userType, setUserType] = useState('volunteer');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Database Integration
-    // 1. Validate form data
-    // 2. Send login request to backend
-    // 3. Handle response (success/error)
-    // 4. Store authentication token
-    // 5. Redirect to dashboard/home
-    console.log('Login form submitted');
+    setLoading(true);
+    setError('');
+    try {
+      // Your login logic here
+      alert(`Logging in as ${userType}`);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUserTypeChange = (type) => {
+    setUserType(type);
+    alert(`Switched to ${type} login`);
   };
 
   return (
     <div className="auth-page">
       <div className="auth-container">
         <h2>Login</h2>
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <input 
-            type="email" 
-            placeholder="Email" 
-            required 
-            // TODO: Add onChange handler
-            // onChange={(e) => setFormData({...formData, email: e.target.value})}
+        <div className="user-type-toggle">
+          <button 
+            className={`toggle-button ${userType === 'volunteer' ? 'active' : ''}`}
+            onClick={() => handleUserTypeChange('volunteer')}
+          >
+            <FontAwesomeIcon icon={faUser} /> Volunteer
+          </button>
+          <button 
+            className={`toggle-button ${userType === 'organization' ? 'active' : ''}`}
+            onClick={() => handleUserTypeChange('organization')}
+          >
+            <FontAwesomeIcon icon={faHeart} /> Organization
+          </button>
+        </div>
+        <div style={{ marginBottom: '1.5rem' }}></div>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            required
           />
-          <input 
-            type="password" 
-            placeholder="Password" 
-            required 
-            // TODO: Add onChange handler
-            // onChange={(e) => setFormData({...formData, password: e.target.value})}
+          <input
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
+            required
           />
-          <button type="submit" className="cta-button">Login</button>
+          {error && <div className="error-message">{error}</div>}
+          <button type="submit" className="cta-button" disabled={loading}>
+            {loading ? 'Logging in...' : `Login as ${userType}`}
+          </button>
         </form>
-        <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
+        <p>
+          Don't have an account?{' '}
+          <Link to="/signup">Sign up</Link>
+        </p>
+        <button className="back-button" onClick={() => navigate('/')}>
+          <FontAwesomeIcon icon={faArrowLeft} /> Back to Home
+        </button>
       </div>
     </div>
   );
 }
 
 function SignupPage() {
-  // TODO: Add state management for form data
-  // const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
-  // const [error, setError] = useState('');
-  // const [loading, setLoading] = useState(false);
+  const [userType, setUserType] = useState(''); // 'volunteer' or 'organization'
+  const [formData, setFormData] = useState({
+    // Common fields
+    fullName: '',
+    email: '',
+    phone: '',
+    password: '',
+    // Organization specific fields
+    placeName: '',
+    location: '',
+    govtId: '',
+    headCount: '',
+    placeType: '',
+    isGovtAided: false,
+    dailyExpense: '',
+    // Volunteer specific fields
+    volunteerLocation: '',
+    skills: '',
+    availability: ''
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState('');
+  const navigate = useNavigate();
+
+  const handleSendOTP = async () => {
+    try {
+      setLoading(true);
+      // TODO: Implement OTP sending logic
+      console.log('Sending OTP...');
+      setOtpSent(true);
+    } catch (err) {
+      setError('Failed to send OTP. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Database Integration
-    // 1. Validate form data
-    // 2. Check if passwords match
-    // 3. Send signup request to backend
-    // 4. Handle response (success/error)
-    // 5. Store authentication token
-    // 6. Redirect to dashboard/home
-    console.log('Signup form submitted');
+    try {
+      setLoading(true);
+      // TODO: Implement form submission logic
+      console.log('Form submitted:', { userType, ...formData });
+    } catch (err) {
+      setError('Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const renderUserTypeSelection = () => (
+    <div className="user-type-selection">
+      <h2>Choose Registration Type</h2>
+      <div className="user-type-options">
+        <div className="user-type-card" onClick={() => setUserType('volunteer')}>
+          <FontAwesomeIcon icon={faUsers} className="user-type-icon" />
+          <h3>Volunteer</h3>
+          <p>Join as a volunteer to help and support children in need</p>
+        </div>
+        <div className="user-type-card" onClick={() => setUserType('organization')}>
+          <FontAwesomeIcon icon={faHandHoldingHeart} className="user-type-icon" />
+          <h3>Organization</h3>
+          <p>Register your organization to connect with volunteers and donors</p>
+        </div>
+      </div>
+      <p className="login-link">
+        Already registered? <Link to="/login">Login</Link>
+      </p>
+      <button className="back-button" onClick={() => setUserType('')}>
+        <FontAwesomeIcon icon={faArrowLeft} /> Back to Signup
+      </button>
+    </div>
+  );
+
+  const renderVolunteerForm = () => (
+    <div className="auth-container signup-container">
+      <h2>Volunteer Registration</h2>
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Full Name</label>
+          <input 
+            type="text" 
+            placeholder="Enter your full name" 
+            required 
+            value={formData.fullName}
+            onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Email</label>
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            required 
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Phone Number</label>
+          <div className="phone-input-group">
+            <input 
+              type="tel" 
+              placeholder="Enter phone number" 
+              required 
+              value={formData.phone}
+              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+            />
+            <button 
+              type="button" 
+              className="otp-button"
+              onClick={handleSendOTP}
+              disabled={loading}
+            >
+              {otpSent ? 'Resend OTP' : 'Send OTP'}
+            </button>
+          </div>
+        </div>
+
+        {otpSent && (
+          <div className="form-group">
+            <label>OTP Verification</label>
+            <input 
+              type="text" 
+              placeholder="Enter OTP" 
+              required 
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+          </div>
+        )}
+
+        <div className="form-group">
+          <label>Location</label>
+          <input 
+            type="text" 
+            placeholder="Enter your city/location" 
+            required 
+            value={formData.volunteerLocation}
+            onChange={(e) => setFormData({...formData, volunteerLocation: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Skills/Interests</label>
+          <select 
+            required
+            value={formData.skills}
+            onChange={(e) => setFormData({...formData, skills: e.target.value})}
+          >
+            <option value="">Select your skills</option>
+            <option value="teaching">Teaching</option>
+            <option value="counseling">Counseling</option>
+            <option value="medical">Medical Support</option>
+            <option value="sports">Sports Activities</option>
+            <option value="arts">Arts & Crafts</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>Availability</label>
+          <select 
+            required
+            value={formData.availability}
+            onChange={(e) => setFormData({...formData, availability: e.target.value})}
+          >
+            <option value="">Select availability</option>
+            <option value="weekends">Weekends</option>
+            <option value="weekdays">Weekdays</option>
+            <option value="flexible">Flexible</option>
+            <option value="specific">Specific Days</option>
+          </select>
+        </div>
+
+        <button type="submit" className="cta-button" disabled={loading}>
+          {loading ? 'Registering...' : 'Register as Volunteer'}
+        </button>
+      </form>
+      <p className="login-link">
+        Already registered? <Link to="/login">Login</Link>
+      </p>
+      <button className="back-button" onClick={() => setUserType('')}>
+        <FontAwesomeIcon icon={faArrowLeft} /> Back to Signup
+      </button>
+    </div>
+  );
+
+  const renderOrganizationForm = () => (
+    <div className="auth-container signup-container">
+      <h2>Organization Registration</h2>
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Owner/Head Name</label>
+          <input
+            type="text"
+            placeholder="Enter full name" 
+            required
+            value={formData.fullName}
+            onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            placeholder="Enter your email" 
+            required 
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Phone Number</label>
+          <div className="phone-input-group">
+            <input
+              type="tel"
+              placeholder="Enter phone number" 
+              required 
+              value={formData.phone}
+              onChange={(e) => setFormData({...formData, phone: e.target.value})}
+            />
+            <button 
+              type="button" 
+              className="otp-button"
+              onClick={handleSendOTP}
+              disabled={loading}
+            >
+              {otpSent ? 'Resend OTP' : 'Send OTP'}
+            </button>
+          </div>
+        </div>
+
+        {otpSent && (
+          <div className="form-group">
+            <label>OTP Verification</label>
+            <input 
+              type="text" 
+              placeholder="Enter OTP" 
+              required 
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+          </div>
+        )}
+
+        <div className="form-group">
+          <label>Place Name</label>
+          <input 
+            type="text" 
+            placeholder="Enter organization name" 
+            required 
+            value={formData.placeName}
+            onChange={(e) => setFormData({...formData, placeName: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Location</label>
+          <input
+            type="text" 
+            placeholder="Enter complete address" 
+            required 
+            value={formData.location}
+            onChange={(e) => setFormData({...formData, location: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Government Identity</label>
+          <input 
+            type="text" 
+            placeholder="Enter registration number" 
+            required 
+            value={formData.govtId}
+            onChange={(e) => setFormData({...formData, govtId: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Head Count</label>
+          <input 
+            type="number" 
+            placeholder="Enter number of children" 
+            required 
+            min="1"
+            value={formData.headCount}
+            onChange={(e) => setFormData({...formData, headCount: e.target.value})}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Type of Place</label>
+          <select 
+            required
+            value={formData.placeType}
+            onChange={(e) => setFormData({...formData, placeType: e.target.value})}
+          >
+            <option value="">Select type</option>
+            <option value="orphanage">Orphanage</option>
+            <option value="shelter">Shelter Home</option>
+            <option value="rehabilitation">Rehabilitation Center</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div className="form-group checkbox-group">
+          <label>
+            <input 
+              type="checkbox" 
+              checked={formData.isGovtAided}
+              onChange={(e) => setFormData({...formData, isGovtAided: e.target.checked})}
+            />
+            Government Aided
+          </label>
+        </div>
+
+        <div className="form-group">
+          <label>Daily Average Expense (₹)</label>
+          <input 
+            type="number" 
+            placeholder="Enter daily expense" 
+            required 
+            min="0"
+            value={formData.dailyExpense}
+            onChange={(e) => setFormData({...formData, dailyExpense: e.target.value})}
+          />
+        </div>
+
+        <button type="submit" className="cta-button" disabled={loading}>
+          {loading ? 'Registering...' : 'Register Organization'}
+        </button>
+      </form>
+      <p className="login-link">
+        Already registered? <Link to="/login">Login</Link>
+      </p>
+      <button className="back-button" onClick={() => setUserType('')}>
+        <FontAwesomeIcon icon={faArrowLeft} /> Back to Signup
+      </button>
+    </div>
+  );
 
   return (
     <div className="auth-page">
-      <div className="auth-container">
-        <h2>Sign Up</h2>
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <input 
-            type="text" 
-            placeholder="Full Name" 
-            required 
-            // TODO: Add onChange handler
-            // onChange={(e) => setFormData({...formData, name: e.target.value})}
-          />
-          <input 
-            type="email" 
-            placeholder="Email" 
-            required 
-            // TODO: Add onChange handler
-            // onChange={(e) => setFormData({...formData, email: e.target.value})}
-          />
-          <input 
-            type="password" 
-            placeholder="Password" 
-            required 
-            // TODO: Add onChange handler
-            // onChange={(e) => setFormData({...formData, password: e.target.value})}
-          />
-          <input 
-            type="password" 
-            placeholder="Confirm Password" 
-            required 
-            // TODO: Add onChange handler
-            // onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-          />
-          <button type="submit" className="cta-button">Sign Up</button>
-        </form>
-        <p>Already have an account? <Link to="/login">Login</Link></p>
-      </div>
+      {!userType ? renderUserTypeSelection() : 
+        userType === 'volunteer' ? renderVolunteerForm() : renderOrganizationForm()
+      }
     </div>
   );
 }
