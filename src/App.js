@@ -326,12 +326,9 @@ function SignupPage() {
           <p>Register your organization to connect with volunteers and donors</p>
         </div>
       </div>
-      <p className="login-link">
+      <p className="login-link" style={{ textAlign: 'center' }}>
         Already registered? <Link to="/login">Login</Link>
       </p>
-      <button className="back-button" onClick={() => setUserType('')}>
-        <FontAwesomeIcon icon={faArrowLeft} /> Back to Signup
-      </button>
     </div>
   );
 
