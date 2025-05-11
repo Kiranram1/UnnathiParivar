@@ -50,6 +50,14 @@ body {
   white-space: nowrap;
 }
 
+.logo-link {
+  text-decoration: none;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .logo-icon {
   color: var(--accent);
 }
@@ -61,16 +69,20 @@ body {
   flex-wrap: nowrap;
 }
 
-.nav-links a {
+.nav-link {
   color: var(--text);
   text-decoration: none;
   font-weight: 500;
   position: relative;
   padding: 0.5rem 0;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition);
 }
 
-.nav-links a::after {
+.nav-link::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -81,26 +93,42 @@ body {
   transition: var(--transition);
 }
 
-.nav-links a:hover::after {
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.nav-link:hover::after {
   width: 100%;
 }
 
+/* CTA Button Styles */
 .cta-button {
   background: var(--accent);
-  color: var(--white);
+  color: white;
+  padding: 0.8rem 1.5rem;
   border: none;
-  padding: 0.6rem 1.2rem;
   border-radius: 25px;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: var(--shadow);
-  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
 }
 
 .cta-button:hover {
-  background: #c0392b;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+  background: var(--accent-dark);
+}
+
+.hero-cta {
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  margin-top: 2rem;
 }
 
 /* Hero Section */
@@ -375,3 +403,473 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
+
+/* ... existing code ... */
+
+/* Auth Button Styles */
+.auth-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  transition: var(--transition);
+}
+
+.auth-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Auth Pages Styles */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  position: relative;
+  padding: 20px;
+}
+
+.auth-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.auth-container h2 {
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-form input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.auth-form input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+.auth-form button {
+  margin-top: 1rem;
+}
+
+.auth-container p {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #666;
+}
+
+.auth-container a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-container a:hover {
+  text-decoration: underline;
+}
+
+/* ... rest of the existing code ... */
+/* ... existing code ... */
+
+/* Auth Pages Styles */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: url('../public/images/back.png') center/cover no-repeat fixed;
+}
+
+.auth-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.auth-container {
+  position: relative;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  width: 100%;
+  max-width: 400px;
+  margin: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.auth-container h2 {
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-form input {
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--primary);
+}
+
+.auth-form input::placeholder {
+  color: rgba(44, 62, 80, 0.7);
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: rgba(52, 152, 219, 0.5);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.auth-form button {
+  margin-top: 1rem;
+  width: 100%;
+  background: rgba(52, 152, 219, 0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth-form button:hover {
+  background: rgba(52, 152, 219, 0.9);
+}
+
+.auth-container p {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  text-shadow: none;
+}
+
+.auth-container a:hover {
+  color: var(--accent);
+}
+
+/* ... existing code ... */
+/* ... existing code ... */
+
+/* Signup Form Specific Styles */
+.signup-container {
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.phone-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.phone-input-group input {
+  flex: 1;
+}
+
+.otp-button {
+  padding: 0.8rem 1rem;
+  background: rgba(52, 152, 219, 0.8);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.otp-button:hover {
+  background: rgba(52, 152, 219, 0.9);
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--primary);
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: rgba(52, 152, 219, 0.5);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+select option {
+  background: var(--white);
+  color: var(--primary);
+}
+
+/* Responsive adjustments for signup form */
+@media (max-width: 600px) {
+  .signup-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .phone-input-group {
+    flex-direction: column;
+  }
+
+  .otp-button {
+    width: 100%;
+  }
+}
+
+/* ... rest of the existing code ... */
+/* ... existing code ... */
+
+/* User Type Selection Styles */
+.user-type-selection {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.user-type-selection h2 {
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-type-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.user-type-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-type-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+}
+
+.user-type-icon {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.user-type-card h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.user-type-card p {
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Back Button Styles */
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  margin: 20px auto 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 25px;
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  width: fit-content;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-5px);
+}
+
+.back-button svg {
+  font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .user-type-selection {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .user-type-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ... rest of the existing code ... */
+
+/* Login Page Specific Styles */
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.user-type-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 50px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.toggle-button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.toggle-button.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+}
+
+.toggle-button svg {
+  font-size: 1.1rem;
+}
+
+.error-message {
+  color: var(--accent);
+  text-align: center;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: rgba(231, 76, 60, 0.1);
+  border-radius: 8px;
+}
+
+/* ... rest of the existing code ... */
